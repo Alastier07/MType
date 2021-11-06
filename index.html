@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MType</title>
+	<link rel="stylesheet" type="text/css" href="style/main.css">
+	<script src="js/jquery.js"></script>
+</head>
+<body>
+
+	<!-- Header Section -->
+	<div class="header">
+		<label class="p-1 fo-2 fl-l m-l2">MType</label>
+		<!-- User info section -->
+		<img id="feImg" class="gender-img fl-r" src="img/female.png" alt="Female Sign"><!-- Gender -->
+		<img id="maImg" class="gender-img fl-r" src="img/male.png" alt="Male Sign"><!-- Gender -->
+		<label id="userName" class="fl-r p-1 fo-1 fo-c-gray m-r1 m-t1"></label><!-- Name -->
+	</div>
+
+	<!-- Main Section -->
+	<div class="main">	
+		<!-- Difficulty Secction -->
+		<div class="main-header fl-l">
+			<div class="p-2 fl-l">
+				<label class="fo-1 b">Difficulty:</label>
+				<input id="easyMode" class="m-l2" type="radio" name="diff" value="0" checked>
+				<label class="fo-1">Easy</label>
+				<input id="normalMode" class="m-l2" type="radio" name="diff" value="1">
+				<label class="fo-1">Normal</label>
+				<input id="hardMode" class="m-l2" type="radio" name="diff" value="2">
+				<label class="fo-1">Hard</label>
+			</div>
+			<button id="beginBtn" class="btn-2 fl-l fo-1 p-1">START</button>
+			<div class="p-2 fl-r">
+				<label id="error" class="fo-1 fl-l b">0</label>
+				<img class="clock-img fl-l" src="img/error.png" alt="Error">
+			</div>
+			<div class="p-2 fl-r">
+				<label id="minutes" class="fo-1 fl-l b">00</label>
+				<label class="fo-1 fl-l b">:</label>
+				<label id="seconds" class="fo-1 fl-l b">00</label>
+				<img class="clock-img fl-l" src="img/time.png" alt="Clock">
+			</div>
+		</div>
+		<!-- Test Section -->
+		<div class="fl-l p-1">
+			<p class="test-p fo-0" id="theWords"></p>
+		</div>
+		<!-- Progress Section -->
+		<div id="baselineDiv" class="baseline fl-l">
+			<input id="baseline" class="baseline" type="range" name="perecent"  value="0" min="0" max="100">
+		</div>
+	</div>
+
+	<!-- Footer Section -->
+	<div class="footer">
+		
+	</div>
+
+	<!-- Welcome Modal -->
+	<div id="welcomeModal" class="modal">
+
+  		<!-- Modal content -->
+	  	<div class="modal-content">
+	  		<!-- Welcome section -->
+	    	<div class="p-1 tooltip">
+	    		<label class="fo-1 b">Welcome to MType</label>
+	    		<img class="ico" src="img/help.ico" alt="Question mark">
+	    		<span class="tooltiptext">MType is to evaluate your typing skill.</span>
+	    	</div>
+	    	<!-- First Name section -->
+	    	<div class="p-1">
+	    		<label class="m-l2 fo-1">First Name:</label>
+	    		<input class="m-l1 fo-1" type="text" name="fname" onkeydown="return alphaOnly(event);"> 
+	    		<label id="frequired" class="required fo-1">*</label>
+	    	</div>
+	    	<!-- Last Name section -->
+	    	<div class="p-1">
+	    		<label class="m-l2 fo-1">Last Name:</label>
+	    		<input class="m-l1 fo-1" type="text" name="lname" onkeydown="return alphaOnly(event);"> 
+	    		<label id="lrequired" class="required fo-1">*</label>
+	    	</div>
+	    	<!-- Gender section -->
+	    	<div class="p-1">
+		    	<label class="m-l2 fo-1">Gender:</label>
+		    	<input class="m-l1" type="radio" name="gender" value="M" checked>
+		    	<label class="fo-1">Male</label>
+		    	<input class="m-l1" type="radio" name="gender" value="F">
+		    	<label class="fo-1">Female</label>
+	    	</div>
+	    	<!-- Get Started Button -->
+	    	<div>
+	    		<button class="btn-1 p-1 fo-1 m-r1 m-lauto" id="startBtn">Get Started &rarr;</button>
+	    	</div>
+	  	</div>
+
+	</div>
+
+	<!-- Notice Modal -->
+	<div id="noticeModal" class="modal hide">
+
+  		<!-- Modal content -->
+	  	<div class="modal-content">
+	  		<div class="fo-1 b txt-al-c p-1 bor-b">REMINDER</div>
+	  		<div class="p-1 txt-al-c fo-1">
+	  			Test begins when you start typing the first letter of the paragraph.
+	  		</div>
+	  		<div class="p-1 txt-al-c fo-1">Good Luck Have Fun!</div>
+	  		<div class="p-1 txt-al-c">
+	  			<input type="checkbox" name="disNotice" value="1" id="disNotice">
+	  			<label class="fo-0">Don't show again.</label>
+	  		</div>
+	  		<button id="noticeBtn" class="btn-1 p-1 fo-1 m-auto m-t2">&nbsp; &nbsp; Got It &nbsp; &nbsp;</button>
+		</div>
+
+	</div>
+
+	<!-- Test Stop Modal -->
+	<div id="stopModal" class="modal hide">
+
+  		<!-- Modal content -->
+	  	<div class="modal-content">
+	  		<div class="fo-1 b txt-al-c p-1 bor-b">The Test Stopped</div>
+	  		<div class="p-1 txt-al-c fo-1">
+	  			Do you want to try again?
+	  		</div>
+	  		<button id="yesBtn" class="yes-btn fo-1"> Yes </button>
+	  		<button id="noBtn" class="no-btn fo-1"> No </button>
+		</div>
+
+	</div>
+
+	<!-- Result Modal -->
+	<div id="resultModal" class="modal hide">
+
+  		<!-- Modal content -->
+	  	<div class="modal-content">
+	  		<div class="fo-1 b txt-al-c p-1 bor-b">RESULTS</div>
+	  		<div class="result-div">
+	 			<div class="tag1">Username</div>
+	 			<div id="theUser" class="value"></div>
+	  		</div>
+	  		<div class="result-div">
+	 			<div class="tag2">Difficulty</div>
+	 			<div id="theDiff" class="value"></div>
+	  		</div>
+	  		<div class="result-div">
+	 			<div class="tag3">Time</div>
+	 			<div id="theTime" class="value"></div>
+	  		</div>
+	  		<div class="result-div">
+	 			<div class="tag4">Error/Miss-Type</div>
+	 			<div id="theError" class="value"></div>
+	  		</div>
+	  		<div>
+	  			<button id="closeBtn" class="result-button fo-1">CLOSE</button>
+	  		</div>
+		</div>
+
+	</div>
+
+<script>
+
+	var startBtn = document.getElementById("startBtn"); // Get Started Button
+	var welcomeModal = document.getElementById("welcomeModal"); // Welcom Modal
+	var userName = "";
+
+	// Get Started Function
+	startBtn.onclick = function(){
+		// Get user input
+		var fname = document.querySelector('input[name=fname]').value;
+		var lname = document.querySelector('input[name=lname]').value;
+		var gender = document.querySelector('input[name=gender]:checked').value;
+
+		// Verify the firstname and lastname value if it not empty.
+		if(fname && lname){
+			
+			welcomeModal.style.display = "none"; // Hide welcome modal.
+			userName = fname + " " + lname; // Store user name data to variable;
+			
+			// Display user data in user info section.
+			document.getElementById("userName").innerHTML = userName; 
+			if(gender == "M"){
+				document.getElementById("maImg").style.display = "inline-block";
+			}else{
+				document.getElementById("feImg").style.display = "inline-block";
+			}
+
+		}
+		else{
+			// Showing the red asterisk for the required data.
+			document.getElementById("frequired").style.display = "inline-block";
+			document.getElementById("lrequired").style.display = "inline-block";
+		}
+	}
+
+	// Function for only alphabet letters input.
+	function alphaOnly(event) {
+	  var key = event.keyCode;
+	  return ((key >= 65 && key <= 90) || key == 8 || key == 9);
+	};
+
+	var beginBtn = document.getElementById("beginBtn"); //Test Button
+
+	var testStatus = 0; // Test status, 0 is for Stop and 1 is for Start.
+	var noticeStatus = 0; // Reminder status
+
+	// Test Button onclick events and function
+	beginBtn.onclick = function(){
+
+		//Check test status 
+		if(testStatus == 0){
+			testBegin(); // Call testBegin function
+
+			// Disable the difficulty radio buttons
+			document.getElementById("easyMode").disabled = true; 
+			document.getElementById("normalMode").disabled = true;
+			document.getElementById("hardMode").disabled = true;
+		}else{
+			testStop(); // Call testStop function
+
+			// Enable the difficulty radio buttons
+			document.getElementById("stopModal").style.display = "block";
+			document.getElementById("easyMode").disabled = false;
+			document.getElementById("normalMode").disabled = false;
+			document.getElementById("hardMode").disabled = false;
+		}
+	}
+
+	// The difficulty test string reference
+	var easyTest = "Jim and Anne will be in charge of the spring field day to be held in early June. They will ask their friends aid to get set up. There will be games for the boys and girls. The children will want to hike, ride their bikes, and swim.This yearly event will be held in the new Peach Grove Park. Ruth has work to do on the plans for food for the day. Last year Ruth spent most of her time helping the two cooks with many snacks. Hot dogs, fries, soft drinks, ice cream, and candy apples were big sellers. Apple pie and ice cream sold well too. I hope Ruth serves the same food this year.";
+	
+	var normalTest = "The basic technique stands in contrast to hunt and peck typing in which the typist keeps his or her eyes on the source copy at all times. Touch typing also involves the use of the home row method, where typists keep their wrists up, rather than resting them on a desk or keyboard (which can cause carpal tunnel syndrome). To avoid this, typists should sit up tall, leaning slightly forward from the waist, place their feet flat on the floor in front of them with one foot slightly in front of the other, and keep their elbows close to their sides with forearms slanted slightly upward to the keyboard; fingers should be curved slightly and rest on the home row.";
+
+	var hardTest = "December 17, 1903, is the birth date of all airplanes. Orville and Wilbur Wright started building gliders in 1900. In 1903, they built a motor and propeller for their glider. Orville made the first flight, which lasted 12 seconds, and flew 120 feet. Wilbur's flight was 852 feet in 59 seconds. These first flights in 1903 were just the start of the evolution of planes. By the year 1909, Bleriot had crossed the English Channel. By the year 1912, a two-piece plywood fuselage was built for greater strength. By the 1930s, the all-metal fuselage was tried, and it soon appeared in DC3s. From the Wrights' 1903 motor and prop came the engines for the 1950 turbojet that generated at least 19,600 pounds of thrust. The big Boeing 747 has four engines with 50,000 pounds of thrust each. The future holds an advanced super-sonic jet with a saving of almost 40 percent in fuel usage.";
+
+	var difficultyTest = 0; // Difficulty Test, 0 is for easy, 1 is for normal and 2 is for hard.
+	var testMode = easyTest; // Store test string and the default value is easy mode.
+	document.getElementById("theWords").innerHTML = easyTest; // Set the string value to the html elements.
+
+	// Difficulty change event function
+	$('input:radio[name="diff"]').change(
+    function(){
+        if ($(this).is(':checked') && $(this).val() == 0) {
+            document.getElementById("theWords").innerHTML = easyTest;
+            testMode = easyTest;
+        }else if ($(this).is(':checked') && $(this).val() == 1){
+        	document.getElementById("theWords").innerHTML = normalTest;
+        	testMode = normalTest;
+        }else if ($(this).is(':checked') && $(this).val() == 2){
+        	document.getElementById("theWords").innerHTML = hardTest;
+        	testMode = hardTest;
+        }
+
+    });
+
+	// The test begin function
+	function testBegin(){
+
+		testStatus = 1; // Change test status to 1 or start
+
+		// Changing the Test Button element
+		document.getElementById("beginBtn").style.backgroundColor = "red";
+		document.getElementById("beginBtn").innerHTML = "STOP";
+		document.getElementById("beginBtn").blur();
+
+		// Show Reminder if the notice status value is 0.
+		if(noticeStatus == 0){
+			document.getElementById("noticeModal").style.display = "block";
+		}
+
+    	var $target = $('#theWords'); // The test string value
+    	var t = '';	// The storage of the word typed progress
+    	var error = 0; // The count of error or mistype
+    	var stringPos = 0; // The string position progress
+    	var stringPercent = $target.text().length * 0.01; // Get the 1% value of the test strings	
+
+    	// Initiate keypress events function to trigger the typing test
+		$("body").keypress(function(e) {
+		if (e.which !== 0) {
+			var keyValue = String.fromCharCode(e.which); // Key Typed
+		    var newt = t + keyValue; // Combine the latest typed string to typed progress
+		    
+		    var text = $target.text(); // The test text
+		    //var pos = text.search(newt);
+		    var stringChar = text.charAt(stringPos); //Get string character of specific position
+
+		    // Check if the string character is equal to user typed 
+		    if(stringChar == keyValue){ // If true
+		    	// Trigger the test if the first letter of the string exam is typed
+		    	if(stringPos == 0){
+		    		startTime = setInterval(setTime, 1000); // Trigger the counting time
+			        t = newt; // Store the progress typed string to t variable
+			        $target.html('<span class="highlight">'+t+'</span>'+text.substring(t.length)); // Highlight the progress typed      
+			        stringPos++; // Move to next string position
+			        document.getElementById("baseline").value = stringPos / stringPercent; // Set baseline progess value
+			    }
+			    // Test on going
+			    else{
+			    	t = newt;
+			        $target.html('<span class="highlight">'+t+'</span>'+text.substring(t.length));  
+			        stringPos++;
+			        document.getElementById("baseline").value = stringPos / stringPercent;
+			        // Check if the test is done
+			        if(newt == testMode){
+			        	theResult();
+			        	testStop();
+			        	document.getElementById("resultModal").style.display = "block";
+			        } 
+			    }
+		    }
+		    else{ // If false
+		    	if(stringPos > 0){ // If test started
+			    	error++; // Counting the mistype
+			    	document.getElementById("error").innerHTML = error; // Set value to error html elements
+			    	var missType = t.length + 1;
+			   		var missString = text.charAt(stringPos); //Get the right string character
+			    	$target.html('<span class="highlight">'+t+'</span>'+'<span class="error-highlight">'+missString+'</span>'+text.substring(missType)); // Highlight the mistype character
+			    }
+			}
+		}
+		});
+	}
+
+	// The test stop function
+	function testStop(){
+
+		testStatus = 0; // Set to stop
+
+		// Changing the Test Button element
+		document.getElementById("beginBtn").style.backgroundColor = "green";
+		document.getElementById("beginBtn").innerHTML = "START";
+		document.getElementById("beginBtn").blur();
+
+		$("body").unbind('keypress'); // Remove keypress event to the body elements
+
+		// Reset all the test value 
+		document.getElementById("theWords").innerHTML = testMode;
+		clearInterval(startTime);
+		totalSeconds = 0;
+		error = 0;
+		document.getElementById("error").innerHTML = 0;
+		secondsLabel.innerHTML = "00";
+	  	minutesLabel.innerHTML = "00";
+
+	  	document.getElementById("baseline").value = 0;
+	}
+
+	var minutesLabel = document.getElementById("minutes");
+	var secondsLabel = document.getElementById("seconds");
+	var totalSeconds = 0;
+
+	var startTime = null;
+
+	// The time  functtion
+	function setTime() {
+	  ++totalSeconds;
+	  secondsLabel.innerHTML = pad(totalSeconds % 60);
+	  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+	}
+
+	function pad(val) {
+	  var valString = val + "";
+	  if (valString.length < 2) {
+	    return "0" + valString;
+	  } else {
+	    return valString;
+	  }
+	}
+
+	// The  reminder functions
+	var noticeBtn = document.getElementById("noticeBtn");
+	noticeBtn.onclick = function(){ 
+		gotIt(); 
+	}
+
+	function gotIt(){
+		document.getElementById("noticeModal").style.display = "none";
+		if(document.getElementById("disNotice").checked){
+			noticeStatus = 1;
+		}
+	}
+
+	// Try again function
+	var yesBtn = document.getElementById("yesBtn");
+	yesBtn.onclick = function(){
+		document.getElementById("stopModal").style.display = "none";
+		testBegin();
+	}
+
+	var noBtn = document.getElementById("noBtn");
+
+	noBtn.onclick = function(){
+		document.getElementById("stopModal").style.display = "none";
+	}	
+
+	// The results functions
+	var closeBtn = document.getElementById("closeBtn");
+
+	// Close modal
+	closeBtn.onclick = function(){
+		document.getElementById("resultModal").style.display = "none";
+		document.getElementById("easyMode").disabled = false;
+		document.getElementById("normalMode").disabled = false;
+		document.getElementById("hardMode").disabled = false;
+	}									
+
+	// Display result
+	function theResult(){
+
+		document.getElementById("theUser").innerHTML = userName;
+
+		if(difficultyTest == 0){
+			document.getElementById("theDiff").innerHTML = "Easy";
+		}else if(difficultyTest == 1){
+			document.getElementById("theDiff").innerHTML = "Normal";
+		}else if(difficultyTest == 2){
+			document.getElementById("theDiff").innerHTML = "Hard";
+		}
+
+		var theMinutes = document.getElementById("minutes").innerHTML;
+		var theSeconds = document.getElementById("seconds").innerHTML;
+		document.getElementById("theTime").innerHTML = theMinutes +" : "+ theSeconds;
+
+		var theMiss = document.getElementById("error").innerHTML;
+		document.getElementById("theError").innerHTML = theMiss;
+
+	}
+
+	// The baseline test progress
+	document.getElementById("baselineDiv").onmouseenter = function() {
+		document.getElementById("baseline").disabled = true;
+	};
+
+	document.getElementById("baselineDiv").onmouseleave = function() {
+		document.getElementById("baseline").disabled = false;
+	};
+
+</script>
+</body>
+</html>

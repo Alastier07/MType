@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="js/jquery.js"></script>
+	<link rel="stylesheet" type="text/css" href="style/main.css">
+</head>
+<body>
+	<p class="test-p fo-0" id="theWords">a? sdadddddddddddddddda</p>
+	<script>
+		var $target = $('#theWords');
+    	var t = '';
+    	var stat = 0;
+    	var error = 0;
+    	var x = 0;
+    	var lastText;
+
+		$("body").keypress(function(e) {
+		if (e.which !== 0) {
+		    var newt = t + String.fromCharCode(e.which);
+		    var thet = String.fromCharCode(e.which);
+		    var text = $target.text();	
+		    var pos = text.search(newt);
+		    var startPos = text.charAt(x);
+		    var length = text.length;
+		    
+		    alert(lastText);
+		    if(startPos == thet){
+		    	pos = 0;
+		    		stat = 1;
+		    		x++;
+		    		t = newt;
+			        $target.html('<span class="highlight">'+t+'</span>'+text.substring(pos+t.length));      
+			    
+		    }else{
+		    	pos = 0;
+		   		var missType = t.length + 1;
+		   		var missString = text.charAt(x);
+		    	$target.html(text.substring(0,pos)+'<span class="highlight">'+t+'</span>'+'<span style="background-color: red;">'+missString+'</span>'+text.substring(missType)); 
+		    }
+		}
+	});
+	</script>
+</body>
+</html>
