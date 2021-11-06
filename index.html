@@ -187,7 +187,7 @@
 
 		}
 		else{
-			// Showing the red asterisk for the required data.
+			// Showing the red asterisk for the required data if user input not completed.
 			document.getElementById("frequired").style.display = "inline-block";
 			document.getElementById("lrequired").style.display = "inline-block";
 		}
@@ -281,12 +281,12 @@
 		    var newt = t + keyValue; // Combine the latest typed string to typed progress
 		    
 		    var text = $target.text(); // The test text
-		    //var pos = text.search(newt);
+
 		    var stringChar = text.charAt(stringPos); //Get string character of specific position
 
 		    // Check if the string character is equal to user typed 
 		    if(stringChar == keyValue){ // If true
-		    	// Trigger the test if the first letter of the string exam is typed
+		    	// Test will start.
 		    	if(stringPos == 0){
 		    		startTime = setInterval(setTime, 1000); // Trigger the counting time
 			        t = newt; // Store the progress typed string to t variable
@@ -294,7 +294,7 @@
 			        stringPos++; // Move to next string position
 			        document.getElementById("baseline").value = stringPos / stringPercent; // Set baseline progess value
 			    }
-			    // Test on going
+			    // Test is already started.
 			    else{
 			    	t = newt;
 			        $target.html('<span class="highlight">'+t+'</span>'+text.substring(t.length));  
@@ -426,7 +426,7 @@
 
 	}
 
-	// The baseline test progress
+	// The baseline test progress will disable when cursor move to range bar.
 	document.getElementById("baselineDiv").onmouseenter = function() {
 		document.getElementById("baseline").disabled = true;
 	};
